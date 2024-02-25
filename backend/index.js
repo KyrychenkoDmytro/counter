@@ -20,9 +20,10 @@ app.get('/counts', async (req, res) => {
     try {
         const count = await CountModel.find();
         if (!count.length) {
-            const doc = new CountModel({ "count": 0, "id": "1q2w3e" });
+            const updatedAt = new Date();
+            const doc = new CountModel({ "count": 0, "id": "1q2w3e", updatedAt });
             const zeroCount = await doc.save();
-            return res.json(zeroCount);
+            return res.json([zeroCount]);
         }
         return res.json(count);
 
@@ -31,14 +32,14 @@ app.get('/counts', async (req, res) => {
     }
 })
 
-app.post('/counts', async (req, res) => {
+app.patch('/counts', async (req, res) => {
     try {
         const newCount = await CountModel.updateOne({ id: req.body.id }, { $set: req.body });
         if (newCount.modifiedCount === 1) {
             const count = await CountModel.findOne({ id: req.body.id });
             return res.json(count);
         } else {
-            return res.status(404).json({ message: 'Failed to add count' });
+            return res.status(404).json({ message: 'Failed to add counttt' });
         }
 
     } catch (error) {
