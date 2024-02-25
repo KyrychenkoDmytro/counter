@@ -13,10 +13,12 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     document.getElementById('increaseBtn').addEventListener('click', async function () {
         await updateCount('increase');
+        changeNumber(stateCurrentValue);
     });
 
     document.getElementById('decreaseBtn').addEventListener('click', async function () {
         await updateCount('decrease');
+        changeNumber(stateCurrentValue);
     });
 });
 
@@ -47,4 +49,13 @@ async function updateCount(action) {
 
     countValue.textContent = count;
     lastUpdated.textContent = new Date(updatedAt).toLocaleString();
+}
+
+function changeNumber(newNumber) {
+    const numberElement = document.getElementById('countValue');
+    numberElement.classList.add('increase');
+    setTimeout(() => {
+        numberElement.textContent = newNumber;
+        numberElement.classList.remove('increase');
+    }, 300);
 }

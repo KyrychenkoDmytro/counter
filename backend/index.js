@@ -33,6 +33,9 @@ app.get('/counts', async (req, res) => {
 })
 
 app.patch('/counts', async (req, res) => {
+    if (req.body.count < 0) {
+        return res.status(404).json({ message: 'Count cannot be less than zero' });
+    }
     try {
         const newCount = await CountModel.updateOne({ id: req.body.id }, { $set: req.body });
         if (newCount.modifiedCount === 1) {

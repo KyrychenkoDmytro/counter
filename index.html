@@ -10,12 +10,21 @@
 </head>
 
 <body>
+    <h1 class="title">Counter App</h1>
     <div class="container">
-        <h1>Counter App</h1>
-        <button id="increaseBtn">Increase</button>
-        <button id="decreaseBtn">Decrease</button>
-        <p>Current Count: <span id="countValue"></span></p>
-        <p>Last Updated: <span id="lastUpdated"></span></p>
+        <div class="imgWrapper">
+            <picture>
+                <source media="(min-width: 1200px)" srcset="img/desktop.webp">
+                <source media="(min-width: 768px)" srcset="img/tablet.webp">
+                <img src="img/mobile.webp" alt="device">
+            </picture>
+        </div>
+        <div class="countWrapper">
+            <button id="increaseBtn">Increase</button>
+            <div class="parentCount"><span id="countValue">23</span></div>
+            <button id="decreaseBtn">Decrease</button>
+            <div>Last Updated: <span id="lastUpdated"></span></div>
+        </div>
     </div>
 
     <script src="./script.js"></script>
