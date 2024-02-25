@@ -11,16 +11,22 @@ document.addEventListener('DOMContentLoaded', async function () {
     lastUpdated.textContent = new Date(updatedAt).toLocaleString();
     stateCurrentValue = count;
 
+    updateButtonState();
+
     document.getElementById('increaseBtn').addEventListener('click', async function () {
         await updateCount('increase');
         changeNumber(stateCurrentValue);
+        updateButtonState();
     });
 
-    document.getElementById('decreaseBtn').addEventListener('click', async function () {
-        await updateCount('decrease');
-        changeNumber(stateCurrentValue);
-    });
+    document.getElementById('decreaseBtn').addEventListener('click', decreaseButtonClick);
 });
+
+async function decreaseButtonClick() {
+    updateCount('decrease');
+    changeNumber(stateCurrentValue);
+    updateButtonState();
+}
 
 async function updateCount(action) {
     if (action === 'increase') {
@@ -58,4 +64,14 @@ function changeNumber(newNumber) {
         numberElement.textContent = newNumber;
         numberElement.classList.remove('increase');
     }, 300);
+}
+
+function updateButtonState() {
+    const decreaseBtn = document.getElementById('decreaseBtn');
+    decreaseBtn.disabled = stateCurrentValue === 0;
+    if (stateCurrentValue === 0) {
+        decreaseBtn.removeEventListener('click', decreaseButtonClick);
+    } else {
+        decreaseBtn.addEventListener('click', decreaseButtonClick);
+    }
 }
