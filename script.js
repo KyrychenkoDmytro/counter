@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         updateButtonState();
 
         document.getElementById('increaseBtn').addEventListener('click', async function () {
-            await updateCount('increase');
+            await updateCountOnServer('increase');
             changeNumber(stateCurrentValue);
             updateButtonState();
         });
@@ -28,37 +28,22 @@ document.addEventListener('DOMContentLoaded', async function () {
 });
 
 async function decreaseButtonClick() {
-    updateCount('decrease');
+    await updateCountOnServer('decrease');
     changeNumber(stateCurrentValue);
     updateButtonState();
 }
 
-async function updateCount(action) {
+async function updateCountOnServer(action) {
     try {
-        if (action === 'increase') {
-            stateCurrentValue++;
-        } else if (action === 'decrease') {
-            if (stateCurrentValue === 0) {
-                alert('Cannot decrease count below 0');
-                return;
-            }
-            stateCurrentValue--;
-        }
-        const newDate = new Date();
-
-        const updateResponse = await fetch('http://localhost:8080/counts', {
+        const response = await fetch(`http://localhost:8080/counts/${action}`, {
             method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ id: '1q2w3e', count: stateCurrentValue, updatedAt: newDate })
         });
-
-        const { count, updatedAt } = await updateResponse.json();
+        const { count, updatedAt } = await response.json();
 
         const countValue = document.getElementById('countValue');
         const lastUpdated = document.getElementById('lastUpdated');
 
+        stateCurrentValue = count;
         countValue.textContent = count;
         lastUpdated.textContent = new Date(updatedAt).toLocaleString();
     } catch (error) {

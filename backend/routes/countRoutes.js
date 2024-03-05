@@ -5,6 +5,6 @@ import checkDateMiddleware from '../middleware/checkDateMiddleware.js';
 const router = express.Router();
 
 router.get('/', checkDateMiddleware, getCounts);
-router.patch('/', updateCount);
+router.patch('/:action', updateCount);
 
 export default router;
